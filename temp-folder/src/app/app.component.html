@@ -1,0 +1,116 @@
+<div class="container mt-4">
+    <h1>Book Management</h1>
+
+    <!-- Add/Edit Book Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">{{ editMode ? 'Edit Book' : 'Add New Book' }}</h3>
+        </div>
+        <div class="card-body">
+            <form #bookForm="ngForm" (ngSubmit)="addBook(bookForm)" novalidate>
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title *</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-book"></i></span>
+                        <input type="text" class="form-control" id="title" name="title"
+                               [(ngModel)]="newBook.title" required #title="ngModel">
+                    </div>
+                    <div *ngIf="bookForm.submitted && title.invalid" class="invalid-feedback d-block">
+                        Title is required
+                    </div>
+                </div>
+
+                <!-- Author -->
+                <div class="mb-3">
+                    <label for="author" class="form-label">Author *</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" class="form-control" id="author" name="author"
+                               [(ngModel)]="newBook.author" required #author="ngModel">
+                    </div>
+                    <div *ngIf="bookForm.submitted && author.invalid" class="invalid-feedback d-block">
+                        Author is required
+                    </div>
+                </div>
+
+                <!-- ISBN -->
+                <div class="mb-3">
+                    <label for="isbn" class="form-label">ISBN *</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-barcode"></i></span>
+                        <input type="text" class="form-control" id="isbn" name="isbn"
+                               [(ngModel)]="newBook.isbn" required #isbn="ngModel">
+                    </div>
+                    <div *ngIf="bookForm.submitted && isbn.invalid" class="invalid-feedback d-block">
+                        ISBN is required
+                    </div>
+                </div>
+
+                <!-- Publication Date -->
+                <div class="mb-3">
+                    <label for="publicationDate" class="form-label">Publication Date *</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                        <input type="date" class="form-control" id="publicationDate" name="publicationDate"
+                               [(ngModel)]="newBook.publicationDate" required #publicationDate="ngModel">
+                    </div>
+                    <div *ngIf="bookForm.submitted && publicationDate.invalid" class="invalid-feedback d-block">
+                        Publication Date is required
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        {{ editMode ? 'Update Book' : 'Add Book' }}
+                    </button>
+                    <button *ngIf="editMode" type="button" class="btn btn-secondary flex-grow-1" (click)="resetForm()">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Book List -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="mb-0">Book List</h3>
+        </div>
+        <div class="card-body">
+            <div *ngIf="books.length === 0" class="text-center py-4">
+                <i class="bi bi-book text-muted" style="font-size: 4rem;"></i>
+                <p class="text-muted">No books found</p>
+            </div>
+            <table *ngIf="books.length > 0" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Publication Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let book of books">
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.publicationDate | date: 'mediumDate' }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info me-2" (click)="editBook(book)">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteBook(book.id)">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

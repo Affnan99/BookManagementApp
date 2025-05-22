@@ -1,0 +1,11 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "title": "Angular Basics",
+      "author": "John Smith",
+      "isbn": "9781234567890",
+      "publicationDate": "2024-01-01"
+    }
+  ]
+}
